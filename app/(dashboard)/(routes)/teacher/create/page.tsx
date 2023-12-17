@@ -4,6 +4,7 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+
 import {
   Form,
   FormControl,
@@ -33,8 +34,11 @@ const CreatePage = () => {
   const { isSubmitting, isValid } = form.formState;
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     await axios
-      .post("/api/course", values)
-      .then((res) => router.push(`/teacher/courses/${res.data.id}`))
+      .post("/api/courses", values)
+      .then((res) => {
+        toast.success("Course created");
+        router.push(`/teacher/courses/${res.data.id}`);
+      })
       .catch((err) => toast.error("Something went wrong"));
   };
   return (
